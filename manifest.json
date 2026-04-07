@@ -1,0 +1,21 @@
+{
+  "name": "SUANDOK NEWS Pro",
+  "short_name": "NEWS Pro",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#09111f",
+  "theme_color": "#0f172a",
+  "description": "Responsive bilingual PWA for NEWS assessment with alerts, trends, and validation.",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
