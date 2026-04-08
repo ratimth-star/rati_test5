@@ -1,0 +1,1 @@
+This ZIP contains a working project with patient context, alert log, trend charts, quick buttons, oxygen details, validation, autosave draft, Thai/English, and Google Sheet sync.

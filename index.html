@@ -1,1 +1,198 @@
-<h1>SUANDOK NEWS PRO FULL</h1>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="SUANDOK NEWS Pro" />
+  <title>SUANDOK NEWS Pro</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container-fluid app-shell py-3 py-lg-4">
+    <header class="hero-card mb-3">
+      <div class="d-flex flex-column flex-lg-row justify-content-between gap-3">
+        <div>
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <span class="badge text-bg-info-subtle border border-info-subtle">PWA</span>
+            <span class="badge text-bg-dark border border-secondary-subtle">Google Sheet</span>
+            <span class="badge text-bg-secondary">Bootstrap 5</span>
+          </div>
+          <h1 class="mb-1">SUANDOK NEWS Pro</h1>
+          <p class="text-secondary mb-0" data-i18n="heroSubtitle">NEWS assessment with bilingual UI, alert log, and history by HN.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <div class="btn-group">
+            <button id="langThBtn" class="btn btn-outline-light active" type="button">ไทย</button>
+            <button id="langEnBtn" class="btn btn-outline-light" type="button">EN</button>
+          </div>
+          <button id="installBtn" class="btn btn-outline-info d-none" type="button" data-i18n="installApp">Install App</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="draftToast" class="draft-toast small"></div>
+
+    <div class="row g-3">
+      <div class="col-12 col-xl-8">
+        <section class="panel-card">
+          <ul class="nav nav-pills app-tabs mb-3">
+            <li class="nav-item"><button class="nav-link active" id="patient-tab" data-bs-toggle="pill" data-bs-target="#patient-pane" type="button" data-i18n="patientTab">Patient</button></li>
+            <li class="nav-item"><button class="nav-link" id="assessment-tab" data-bs-toggle="pill" data-bs-target="#assessment-pane" type="button" data-i18n="assessmentTab">Assessment</button></li>
+            <li class="nav-item"><button class="nav-link" id="result-tab" data-bs-toggle="pill" data-bs-target="#result-pane" type="button" data-i18n="resultTab">Result</button></li>
+            <li class="nav-item"><button class="nav-link" id="history-tab" data-bs-toggle="pill" data-bs-target="#history-pane" type="button" data-i18n="historyTab">History</button></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="patient-pane">
+              <h2 class="section-title" data-i18n="patientContext">Patient Context</h2>
+              <p class="section-subtitle" data-i18n="patientContextSub">Patient details for safe handover.</p>
+              <div class="row g-3">
+                <div class="col-12 col-md-6"><label class="form-label required" for="patientName" data-i18n="patientName">Patient Name</label><input class="form-control form-control-lg" id="patientName" type="text"></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="hn" data-i18n="hn">HN</label><input class="form-control form-control-lg" id="hn" type="text"></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="assessmentTime" data-i18n="assessmentTime">Assessment Time</label><input class="form-control form-control-lg" id="assessmentTime" type="datetime-local"></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="age" data-i18n="age">Age</label><input class="form-control form-control-lg" id="age" type="number" min="0" max="120"></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="sex" data-i18n="sex">Sex</label><select class="form-select form-select-lg" id="sex"><option value="">--</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="ward" data-i18n="ward">Ward</label><input class="form-control form-control-lg" id="ward" type="text"></div>
+                <div class="col-6 col-md-3"><label class="form-label required" for="bedNo" data-i18n="bedNo">Bed No.</label><input class="form-control form-control-lg" id="bedNo" type="text"></div>
+                <div class="col-12 col-md-6"><label class="form-label" for="diagnosis" data-i18n="diagnosis">Diagnosis</label><input class="form-control form-control-lg" id="diagnosis" type="text"></div>
+                <div class="col-12 col-md-6"><label class="form-label required" for="admitDate" data-i18n="admitDate">Admit Date</label><input class="form-control form-control-lg" id="admitDate" type="date"></div>
+                <div class="col-12 col-md-6"><label class="form-label required" for="location" data-i18n="location">Location</label><input class="form-control form-control-lg" id="location" type="text"></div>
+                <div class="col-12 col-md-6"><label class="form-label" for="note" data-i18n="note">Note</label><input class="form-control form-control-lg" id="note" type="text"></div>
+              </div>
+              <div class="mt-3 text-end"><button class="btn btn-primary nav-next" data-next="#assessment-tab" type="button" data-i18n="next">Next</button></div>
+            </div>
+
+            <div class="tab-pane fade" id="assessment-pane">
+              <h2 class="section-title" data-i18n="vitalSigns">Vital Signs & NEWS Inputs</h2>
+              <p class="section-subtitle" data-i18n="vitalSignsSub">Quick input with previous-value hints and large mobile buttons.</p>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="respiratoryRate" data-i18n="respiratoryRate">Respiratory Rate</label><div class="metric-unit" data-i18n="perMin">breaths/min</div></div><span id="respiratoryRateTrend" class="trend-badge">—</span></div>
+                    <input class="form-control form-control-lg metric-input" id="respiratoryRate" type="number" min="0" max="80">
+                    <div class="quick-buttons" data-target="respiratoryRate"><button class="btn btn-outline-light quick-btn" type="button">10</button><button class="btn btn-outline-light quick-btn" type="button">20</button><button class="btn btn-outline-light quick-btn" type="button">30</button></div>
+                    <div class="metric-foot"><small id="respiratoryRateHint" class="text-secondary"></small><span id="respiratoryRateScore" class="score-chip">0</span></div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="spo2" data-i18n="spo2">SpO₂</label><div class="metric-unit">%</div></div><span id="spo2Trend" class="trend-badge">—</span></div>
+                    <div class="row g-2"><div class="col-7"><input class="form-control form-control-lg metric-input" id="spo2" type="number" min="0" max="100"></div><div class="col-5"><select class="form-select form-select-lg" id="spo2Scale"><option value="1">Scale 1</option><option value="2">Scale 2</option></select></div></div>
+                    <div class="quick-buttons" data-target="spo2"><button class="btn btn-outline-light quick-btn" type="button">88</button><button class="btn btn-outline-light quick-btn" type="button">94</button><button class="btn btn-outline-light quick-btn" type="button">98</button></div>
+                    <div class="metric-foot"><small id="spo2Hint" class="text-secondary"></small><span id="spo2Score" class="score-chip">0</span></div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="oxygenType" data-i18n="oxygenType">Oxygen Type</label><div class="metric-unit" data-i18n="oxygenSupportDetail">Room air / device / intervention</div></div><span id="oxygenSupportScore" class="score-chip">0</span></div>
+                    <div class="row g-2">
+                      <div class="col-12 col-md-6"><select class="form-select form-select-lg" id="oxygenType"><option value="room_air">Room air</option><option value="nasal_cannula">Nasal cannula</option><option value="mask">Mask</option><option value="ventilator">Ventilator</option></select></div>
+                      <div class="col-12 col-md-6"><label class="form-label" for="flowRate" data-i18n="flowRate">Flow rate (L/min)</label><input class="form-control form-control-lg" id="flowRate" type="number" min="0" max="100" step="0.5"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="temperature" data-i18n="temperature">Temperature</label><div class="metric-unit">°C</div></div><span id="temperatureTrend" class="trend-badge">—</span></div>
+                    <input class="form-control form-control-lg metric-input" id="temperature" type="number" min="30" max="45" step="0.1">
+                    <div class="quick-buttons" data-target="temperature"><button class="btn btn-outline-light quick-btn" type="button">36.5</button><button class="btn btn-outline-light quick-btn" type="button">38</button><button class="btn btn-outline-light quick-btn" type="button">39.5</button></div>
+                    <div class="metric-foot"><small id="temperatureHint" class="text-secondary"></small><span id="temperatureScore" class="score-chip">0</span></div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="systolicBP" data-i18n="systolicBP">Systolic BP</label><div class="metric-unit">mmHg</div></div><span id="systolicBPTrend" class="trend-badge">—</span></div>
+                    <input class="form-control form-control-lg metric-input" id="systolicBP" type="number" min="0" max="300">
+                    <div class="quick-buttons" data-target="systolicBP"><button class="btn btn-outline-light quick-btn" type="button">90</button><button class="btn btn-outline-light quick-btn" type="button">120</button><button class="btn btn-outline-light quick-btn" type="button">160</button></div>
+                    <div class="metric-foot"><small id="systolicBPHint" class="text-secondary"></small><span id="systolicBPScore" class="score-chip">0</span></div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="heartRate" data-i18n="heartRate">Heart Rate</label><div class="metric-unit" data-i18n="beatsPerMin">beats/min</div></div><span id="heartRateTrend" class="trend-badge">—</span></div>
+                    <input class="form-control form-control-lg metric-input" id="heartRate" type="number" min="0" max="250">
+                    <div class="quick-buttons" data-target="heartRate"><button class="btn btn-outline-light quick-btn" type="button">60</button><button class="btn btn-outline-light quick-btn" type="button">100</button><button class="btn btn-outline-light quick-btn" type="button">130</button></div>
+                    <div class="metric-foot"><small id="heartRateHint" class="text-secondary"></small><span id="heartRateScore" class="score-chip">0</span></div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="metric-card">
+                    <div class="metric-head"><div><label class="form-label required" for="consciousness" data-i18n="consciousness">Consciousness (AVPU)</label><div class="metric-unit">AVPU</div></div><span id="consciousnessScore" class="score-chip">0</span></div>
+                    <select class="form-select form-select-lg" id="consciousness"><option value="">--</option><option value="A">A - Alert</option><option value="V">V - Voice</option><option value="P">P - Pain</option><option value="U">U - Unresponsive</option></select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 d-flex justify-content-between"><button class="btn btn-outline-light nav-prev" data-prev="#patient-tab" type="button" data-i18n="back">Back</button><button class="btn btn-primary nav-next" data-next="#result-tab" type="button" data-i18n="next">Next</button></div>
+            </div>
+
+            <div class="tab-pane fade" id="result-pane">
+              <div class="row g-3">
+                <div class="col-12 col-lg-6">
+                  <div class="result-box">
+                    <p class="result-label mb-1" data-i18n="totalScore">Total Score</p>
+                    <div id="totalScore" class="display-3 fw-bold mb-2">0</div>
+                    <div class="mb-3"><p class="result-label mb-1" data-i18n="riskLevel">Risk Level</p><div id="urgencyLabel" class="risk-pill risk-low">Low</div></div>
+                    <div class="mb-3"><p class="result-label mb-1" data-i18n="redScore">RED Score</p><div id="redFlag" class="risk-pill risk-neutral">No</div></div>
+                    <div class="mb-3"><p class="result-label mb-1" data-i18n="escalation">Escalation</p><div id="escalationBox" class="escalation-box escalation-low">Low</div></div>
+                    <div id="validationBox" class="validation-box empty mb-3"></div>
+                    <div class="d-grid gap-2"><button id="saveBtn" class="btn btn-success btn-lg" type="button" data-i18n="submitAssessment">Submit Assessment</button><button id="resetBtn" class="btn btn-outline-light btn-lg" type="button" data-i18n="resetForm">Reset</button></div>
+                    <div id="saveStatus" class="mt-3 small text-secondary"></div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6"><h2 class="section-title h5" data-i18n="nursingAdvice">Advice</h2><div id="adviceBox" class="advice-box"></div></div>
+              </div>
+              <div class="mt-3 d-flex justify-content-between"><button class="btn btn-outline-light nav-prev" data-prev="#assessment-tab" type="button" data-i18n="back">Back</button><button class="btn btn-primary nav-next" data-next="#history-tab" type="button" data-i18n="next">Next</button></div>
+            </div>
+
+            <div class="tab-pane fade" id="history-pane">
+              <div class="section-title-row">
+                <div>
+                  <h2 class="section-title" data-i18n="history">History</h2>
+                  <p class="section-subtitle" data-i18n="historySub">History and charts are filtered by HN, so each patient is shown separately.</p>
+                </div>
+                <div class="d-flex gap-2 flex-wrap"><button id="refreshHistoryBtn" class="btn btn-outline-info btn-sm" type="button" data-i18n="refreshHistory">Refresh</button><button id="clearDraftBtn" class="btn btn-outline-secondary btn-sm" type="button" data-i18n="clearDraft">Clear Draft</button></div>
+              </div>
+              <div class="alert alert-secondary mb-3" data-i18n="historyHint">Enter HN in Patient tab, then history and graphs will show only that patient's records.</div>
+              <div class="row g-3 mb-3">
+                <div class="col-12"><div class="chart-card"><div class="chart-title" data-i18n="redTrend">RED Score Trend</div><canvas id="scoreChart" height="110"></canvas></div></div>
+                <div class="col-12"><div class="chart-card"><div class="chart-title" data-i18n="vitalTrend">Vital Signs Trend</div><canvas id="vitalsChart" height="130"></canvas></div></div>
+              </div>
+              <div class="table-responsive mb-3">
+                <table class="table table-dark table-striped align-middle history-table">
+                  <thead><tr><th data-i18n="time">Time</th><th data-i18n="patient">Patient</th><th>HN</th><th data-i18n="score">Score</th><th data-i18n="risk">Risk</th><th data-i18n="redFlag">RED</th></tr></thead>
+                  <tbody id="historyTable"></tbody>
+                </table>
+              </div>
+              <div class="alert-log-wrap"><h3 class="h6 mb-3" data-i18n="alertLog">Alert Log</h3><div id="alertLog" class="alert-log"></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <section class="panel-card sticky-panel">
+          <div class="mini-summary">
+            <div class="summary-chip"><span data-i18n="score">Score</span><strong id="summaryScore">0</strong></div>
+            <div class="summary-chip"><span data-i18n="risk">Risk</span><strong id="summaryRisk">Low</strong></div>
+            <div class="summary-chip"><span data-i18n="redFlag">RED</span><strong id="summaryRed">No</strong></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
